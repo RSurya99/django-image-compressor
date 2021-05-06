@@ -7,5 +7,6 @@ Is a web app to compress image file (jpg/png) without compromising with the qual
 - Pyhon 3.8.6
 
 ## Required Packages
-- Django ver 2.2.12
-- Pillow
+- django ver 2.2.12
+- pillow
+- django-environ
