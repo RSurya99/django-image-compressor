@@ -2,14 +2,22 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-import PIL
-from PIL import Image
+from .forms import FormCompressor
+from .models import ImageCompressor
 
 # Create your views here.
 def index(request):
-    asd = 'This is Rafli'
+    if request.POST:
+        form = FormCompressor(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Image berhasil di compress!")
+        else:
+            messages.error(request, "Terjadi kesalahan.")
+    else:
+        form = FormCompressor()
+
     context = {
-        'a': asd
+        'form': form
     }
-    
     return render(request, 'index.html', context)

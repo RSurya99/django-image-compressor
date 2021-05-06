@@ -22,8 +22,8 @@ myenv
 # javascript
 package-lock.json
 
-core/media/*
-!core/media/.gitkeep
+media/*
+!media/.gitkeep
 staticfiles/*
 !staticfiles/.gitkeep 
 .vscode/symbols.json
