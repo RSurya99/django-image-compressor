@@ -18,11 +18,22 @@ class ImageCompressor(models.Model):
 
     def compressImage(self,image_file):
         imageTemproary = Image.open(image_file)
-        rgb_imageTemproary = imageTemproary.convert('RGB')
-        outputIoStream = BytesIO()
-        rgb_imageTemproary.save(outputIoStream , format='JPEG', quality=60, optimize=True)
-        outputIoStream.seek(0)
-        image_file = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % image_file.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
+        image_file_name = image_file.name
+        image_type = image_file_name.split('.')
+        
+        if image_type[-1] == 'png':
+            imageTemproary_converted = imageTemproary.convert('P', palette=Image.ADAPTIVE)
+            outputIoStream = BytesIO()
+            imageTemproary_converted.save(outputIoStream , format='png', quality=60, optimize=True)
+            outputIoStream.seek(0)
+            image_file = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.png" % image_file.name.split('.')[0], 'image/png', sys.getsizeof(outputIoStream), None)
+        elif image_type[-1] == 'jpg' or 'jpeg':
+            rgb_imageTemproary = imageTemproary.convert('RGB')
+            outputIoStream = BytesIO()
+            rgb_imageTemproary.save(outputIoStream , format='JPEG', quality=60, optimize=True)
+            outputIoStream.seek(0)
+            image_file = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % image_file.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
+
         return image_file
 
     def __str__(self):
