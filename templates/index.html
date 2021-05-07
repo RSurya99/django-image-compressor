@@ -9,28 +9,35 @@
 <body>
 
     {% for message in messages %}
-          {% if message %}
+        {% if message %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-              <span class="alert-inner--text"><strong>{{ message }}</strong></span>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
+                <span class="alert-inner--text"><strong>{{ message }}</strong></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         {% endif %}
-      {% endfor %}
-
+    {% endfor %}
+    
     <form method="POST" enctype="multipart/form-data" id="tambah-pembayaran-form">
         {% csrf_token %}
 
         <div class="form-group">
             <label for="image_file">Masukkan Gambar</label>
             <div class="input-group input-group-alternative mb-3">
-                {{ form.image_file }}
+                <input type="file" name="image_file" class="form-control-file" required accept="image/x-png,image/jpeg" id="id_image_file">
             </div>
         </div>
         <span class="text-error">{{ form.image_file.errors }}</span>
 
-        <button type="submit">Compress</button>
+        <button type="submit" name="submit">Compress</button>
+        {% if submitted %}
+            {% for data_img in img_data %}
+            <a href="{{ data_img.image_file.url }}" download="{{ data_img.image_file.name }}">
+                Download Image
+            </a>
+            {% endfor %}
+        {% endif %}
     </form>
 </body>
 </html>
