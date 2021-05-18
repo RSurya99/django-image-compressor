@@ -8,9 +8,8 @@ from .models import ImageCompressor
 # Create your views here.
 def index(request):
     context = {}
-    submitted = False
     img_count = ImageCompressor.objects.all().count() + 1
-    print(img_count)
+
     if request.POST:
         form = FormCompressor(request.POST, request.FILES)
         if form.is_valid():
@@ -19,7 +18,6 @@ def index(request):
 
             if 'submit' in request.POST:
                 img_data = ImageCompressor.objects.filter(id=img_count)
-                submitted = True
                 context.update({'img_data': img_data})
 
         else:
@@ -29,6 +27,5 @@ def index(request):
 
     context.update({
         'form': form,
-        'submitted': submitted,
     })
     return render(request, 'index.html', context)

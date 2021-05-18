@@ -24,7 +24,7 @@ class ImageCompressor(models.Model):
         if image_type == 'png':
             imageTemproary_converted = imageTemproary.convert('P', palette=Image.ADAPTIVE)
             outputIoStream = BytesIO()
-            imageTemproary_converted.save(outputIoStream , format='png', quality=60, optimize=True)
+            imageTemproary_converted.save(outputIoStream , format='png', quality=80, optimize=True)
             outputIoStream.seek(0)
             image_file = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.png" % image_file.name.split('.')[0], 'image/png', sys.getsizeof(outputIoStream), None)
         elif image_type == 'jpg' or 'jpeg':
